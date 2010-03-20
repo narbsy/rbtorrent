@@ -1,0 +1,17 @@
+
+%ul.torrents
+	- @list.each do |torrent|
+		%li.active
+			%div
+				%p
+					Torr:
+					= torrent[1]
+					[
+					]
+				%p
+					%a{ :href => "#", :onclick => "return action_with_hash('/stop', '#{ torrent[0] }');" } Stop
+					%a{ :href => "#", :onclick => "return action_with_hash('/start', '#{ torrent[0] }');" } Start
+					%a{ :href => "#", :onclick => "return action_with_hash('/erase', '#{ torrent[0] }');" } Erase
+
+
+

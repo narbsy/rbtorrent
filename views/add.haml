@@ -1,0 +1,14 @@
+- [:errors, :messages].each do |thing|
+	- if params[thing]
+		%div{ :style => "border: 1px red solid;" }
+			= params[thing]
+
+%form{ :method => "POST" }
+	%p
+		%label Add new torrent by url:
+		%input{ :type => "text", :name => "url" }
+	%p
+		%label Start immediately?
+		%input{ :type => "checkbox", :name => "start" }
+
+	%input{ :type => "submit", :value => "Add me!" }
