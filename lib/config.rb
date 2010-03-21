@@ -1,5 +1,5 @@
 # Load the configuration file firstly; may get rid of this later.
-@@config = YAML.load_file 'conf.yaml'
+@@config = YAML.load_file 'config/conf.yaml'
 
 # for prettiness and testability, return a config object that acts like a hash
 def config
