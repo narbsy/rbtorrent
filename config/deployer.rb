@@ -10,7 +10,7 @@ def deploy_from_local_git(host, branch, destination)
 	command = [ "mkdir -p #{destination}",
 							"cd #{destination}",
 							"tar xf -",
-							"thin -R config.ru restart"
+							#"thin -R config.ru restart"
 						].join(" && ")
 	
 	puts command
