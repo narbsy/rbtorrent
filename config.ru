@@ -2,8 +2,7 @@ require 'rubygems'
 require 'sinatra'
 
 # set :environment, :production
-# set :port, 8000
-
+# set :port, 4567
 
 require 'rbtorrent'
 
