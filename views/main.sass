@@ -1,6 +1,15 @@
 =flat
-	margin: 0
-	padding: 0
+  margin: 0
+  padding: 0
+
+=colorfula(!normal, !hover, !visited)
+  a
+    color = !normal
+    &:visited
+      color = !visited
+    &:hover
+      color = !hover
+  
 
 !header = #007DFF
 !background = #0C00A6
@@ -13,47 +22,104 @@
 !color5 = #1300FF
 
 *
-	font-family: sans-serif
+  font-family: sans-serif
 
 #header
-	+flat
-	width: 100%
-	height: 20%
-	background-color = !header
-	border: 1px solid gray
-	.big
-		width: 40%
-		float: left
-		+flat
-	.small
-		width: 30%
-		text-align: right
-		vertical-align: bottom
-		float: right
-		+flat
-		padding-top: 1%
-		padding-bottom: 0.5%
-		margin-right: 0.5%
-	.clear
-		clear: both
+  +flat
+  width: 100%
+  height: 10%
+  background-color = !header
+  border-bottom: 1px solid gray
+
+  .big
+    width: 40%
+    float: left
+    +flat
+
+  .small
+    width: 30%
+    text-align: right
+    vertical-align: bottom
+    float: right
+    +flat
+    padding-top: 1%
+    padding-bottom: 0.5%
+    margin-right: 0.5%
+  .clear
+    clear: both
+
+!c = #4165A9
+#nav
+  background-color: #1F1156
+  color: gray
+  padding-bottom: 0.5%
+  width: 100%
+  +colorfula("#{!color4}", "#{!color5}", "#{!color4}")
+  a
+    font-weight: bold
 
 body, html
-	+flat
-	background-color: #1F1156
+  +flat
+  background-color: #FFF
 
 ul.torrents
-	border = "1px solid #{ !color2 }"
-	background-color = !color5
-	list-style-type: none
-	a
-		&:hover
-			color = !color2
-		&:visited
-			color: black
-	li.active
-		color: white
+  +flat
+  margin-top: 0.5%
+  list-style-type: none
+  a
+    color: white
+    &:hover
+      color = !color2
+    &:visited
+      color: white
+  li
+    border = "1px solid #{ !color2 }"
+    +flat
+    margin-bottom: 0.5%
+    color = !color2
+    div
+      color = !color5
+      
+
+form
+  border = "1px solid #{ !color2 }"
+  background-color = !color5
+  color: white
+
+.errors, .messages
+  color: red
+  background-color = !color4
 
 .content
-	width: 70%
-	margin: 0 auto
+  width: 70%
+  margin: 0 auto
 
+.large
+  font-size: 140%
+
+.name
+
+.status
+  float: right
+  vertical-align: text-bottom
+  margin-right: 0.5%
+
+.title
+  width: 100%
+  height: auto
+  margin: 1px
+
+// Percentage bar from: http://blog.damiles.com/?p=43
+.percent
+  display: block
+  float: left
+  background: url(images/percent.png) top left repeat-x
+  height: 17px
+  // width: 75px
+  width: 80%
+
+.percent span
+  background: url(images/percent.png) bottom right repeat-x
+  display: block
+  float: left
+  height: 17px

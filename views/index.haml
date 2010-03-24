@@ -1,17 +1,33 @@
+- status = 'finished'
+- content_for :nav do
+  %div{ :style => "float: right; padding-right: 0.5%;" }
+    - [ 'finished', 'started', 'downloading', 'seeding' ].each do |status|
+      %a{ :href => "#", :onclick => "return hide_all_but('#{status}');" }= status.capitalize
+
 
 %ul.torrents
-	- @list.each do |torrent|
-		%li.active
-			%div
-				%p
-					Torr:
-					= torrent[1]
-					[
-					]
-				%p
-					%a{ :href => "#", :onclick => "return action_with_hash('/stop', '#{ torrent[0] }');" } Stop
-					%a{ :href => "#", :onclick => "return action_with_hash('/start', '#{ torrent[0] }');" } Start
-					%a{ :href => "#", :onclick => "return action_with_hash('/erase', '#{ torrent[0] }');" } Erase
+  - @list.each do |torrent|
+    %li{ :class => torrent.get_status.downcase }
+      .title
+        %span.name.large
+          = torrent.get_name
+        %span.status
+          [
+          = torrent.get_status
+          ]
+
+      .torrent
+        %p
+          = torrent.get_hash
+        %p
+          %label Ratio:
+          = (torrent.get_ratio / 1000.0).round(3)
+        %p
+          %div{ :style => "margin: auto" }
+            = percent_bar torrent.percentage
+        %p{ :style => "clear: both" }
+          - [:stop, :start, :erase].each do |action|
+            %a{ :href => "#", :onclick => "return action_with_hash('/#{action}', '#{ torrent.get_hash }');" }= action.capitalize
 
 
 

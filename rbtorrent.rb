@@ -1,4 +1,4 @@
-%w{ rubygems sinatra haml sass dm-core yaml }.each { |lib| require lib }
+%w{ rubygems sinatra haml sass dm-core yaml sinatra/content_for }.each { |lib| require lib }
 
 #Useful things
 Dir["lib/*.rb"].each { |lib| require lib }
@@ -10,7 +10,7 @@ setup_download_dir
 
 get '/' do
   @rtorrent = Rtorrent.new
-  @list = @rtorrent.list "default", "d.get_hash=", "d.get_name=", "d.get_state="
+  @list = @rtorrent.list "default", "d.get_hash=", "d.get_name=", "d.get_state=", "d.get_ratio=", "d.get_complete=", "d.is_open=", "d.get_size_chunks=", "d.get_completed_chunks="
 
   haml :index
 end
@@ -39,10 +39,10 @@ post '/add' do
   haml :add
 end
 
+# note, i should change this to put probably.
 [:stop, :erase, :start].each do |route|
   post '/' + route do
-    @rtorrent = Rtorrent.new
-    @rtorrent.send route, params[:hash]
+    Rtorrent.new.from_hash(params[:hash]).send route
   end
 end
 
