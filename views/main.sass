@@ -66,20 +66,14 @@ ul.torrents
   +flat
   margin-top: 0.5%
   list-style-type: none
-  a
-    color: white
-    &:hover
-      color = !color2
-    &:visited
-      color: white
+  +colorfula("#{!color2}", "#{!color2}", "#{!color2}")
   li
     border = "1px solid #{ !color2 }"
     +flat
     margin-bottom: 0.5%
     color = !color2
-    div
+    hr
       color = !color5
-      
 
 form
   border = "1px solid #{ !color2 }"
@@ -97,17 +91,19 @@ form
 .large
   font-size: 140%
 
-.name
-
 .status
   float: right
   vertical-align: text-bottom
   margin-right: 0.5%
+  margin-top: 0.25%
 
 .title
   width: 100%
   height: auto
   margin: 1px
+
+.torrent
+  border-top = "1px solid #{ !color2 }"
 
 // Percentage bar from: http://blog.damiles.com/?p=43
 .percent

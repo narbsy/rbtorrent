@@ -65,13 +65,13 @@ class Rtorrent
       (get_size_chunks / get_completed_chunks.to_f).round(4)
 		end
 
-		def get_status
-			if is_open != 1
+		def get_status(force = false)
+			if is_open(force) != 1
 				return "Closed"
 			end
 
-			active = (get_state != 0)
-			complete = (get_complete != 0)
+			active = (get_state(force) != 0)
+			complete = (get_complete(force) != 0)
 
 			if !active && !complete then
 				"Started"

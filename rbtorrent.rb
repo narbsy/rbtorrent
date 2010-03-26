@@ -1,4 +1,4 @@
-%w{ rubygems sinatra haml sass dm-core yaml sinatra/content_for }.each { |lib| require lib }
+%w{ rubygems sinatra haml sass dm-core yaml sinatra/content_for json }.each { |lib| require lib }
 
 #Useful things
 Dir["lib/*.rb"].each { |lib| require lib }
@@ -42,7 +42,11 @@ end
 # note, i should change this to put probably.
 [:stop, :erase, :start].each do |route|
   post '/' + route do
-    Rtorrent.new.from_hash(params[:hash]).send route
+    torrent = Rtorrent.new.from_hash(params[:hash])
+    torrent.send route
+    # set headers
+    content_type :json
+    {status: torrent.get_status(true)}.to_json
   end
 end
 

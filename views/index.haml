@@ -1,13 +1,14 @@
 - status = 'finished'
 - content_for :nav do
   %div{ :style => "float: right; padding-right: 0.5%;" }
+    %a{ :href => "#", :onclick => "return show_all();" } All
     - [ 'finished', 'started', 'downloading', 'seeding' ].each do |status|
       %a{ :href => "#", :onclick => "return hide_all_but('#{status}');" }= status.capitalize
 
 
 %ul.torrents
   - @list.each do |torrent|
-    %li{ :class => torrent.get_status.downcase }
+    %li{ :class => torrent.get_status.downcase, :id => torrent.get_hash }
       .title
         %span.name.large
           = torrent.get_name
