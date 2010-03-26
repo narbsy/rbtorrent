@@ -19,7 +19,7 @@ def deploy_from_local_git(host, branch, destination, files=nil)
 							#"thin -R config.ru restart"
 						].join(" && ")
 	
-	puts "#{ archive } | #{ remote_command(host, command, true) }"
+	#puts "#{ archive } | #{ remote_command(host, command, true) }"
 	`#{ archive } | #{ remote_command(host, command, true) }`
 end
 

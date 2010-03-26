@@ -11,11 +11,14 @@ namespace :deploy do
 		require 'config/deployer.rb'
 		# watch the files that we use, essentially. Use EventMachine so it doesn't poll.
 		# supress the initial add events
-		dw = DirectoryWatcher.new '.', :glob => '**/*.{rb,js,haml,sass}', :scanner => :em #, :pre_load => true
+		dw = DirectoryWatcher.new '.', :glob => '**/*.{rb,js,haml,sass}', :scanner => :em, :pre_load => true
 		dw.add_observer do |*args|
 			# args.each { |e| puts e.last }
-      files = args.select { |e| e[0] =~ /modified|added/ }
-			deploy files.map { |e| e[1] }.uniq unless files.empty?
+      files = args.select { |e| e[0] =~ /modified|added/ }.map { |e| e[1] }.uniq
+      unless files.empty?
+        deploy files
+        puts "#{ Time.now }:\tRedeployed: #{ files.inspect }"
+      end
 		end
 
 		# only scan every 5 seconds or so.
