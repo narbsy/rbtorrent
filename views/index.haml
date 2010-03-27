@@ -18,12 +18,12 @@
           ]
 
       .torrent
-        %p
+        %p.hash
           = torrent.get_hash
-        %p
-          %label Ratio:
+        %p.ratio
+          Ratio:
           = (torrent.get_ratio / 1000.0).round(3)
-        %p
+        %p.percentage
           %div{ :style => "margin: auto" }
             = percent_bar torrent.percentage
         %p{ :style => "clear: both" }

@@ -3,11 +3,20 @@
     %title RbTorrent
     %link{:rel => 'stylesheet', :type => 'text/css', :href => '/main.css'}
     = script "/jquery-1.4.2.js"
+    = script "/idle-timer.js"
     = script "/application.js"
   %body
     #header
       %h1.big RbTorrent
       %h3.small rtorrent webgui built in Sinatra
+      - if logged_in?
+        .small
+          Logged in as:
+          = session[:openid].display_identifier
+          %a{ :href => "/logout" } Logout
+      - else
+        .small
+          %a{ :href => "/login" } Log in
       .clear
     #nav
       %a{ :href => "/add" } Add new torrent
