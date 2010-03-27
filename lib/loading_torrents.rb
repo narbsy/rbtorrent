@@ -7,7 +7,7 @@ rescue Errno::ENOENT
   nil
 end
 
-def write_local_file(contents)
+def write_local_file!(contents)
 	name = hashed_name(contents)
   # Write the file locally so that rtorrent can read it
   file = File.join(config["torrent-dir"], name)
