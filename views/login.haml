@@ -1,0 +1,10 @@
+- if params[:errors] 
+  .errors= params[:errors]
+
+- s = "openid_identifier"
+%form{ :action => "/login", :method => "post" }
+  %p
+    %label{ :for => s } OpenID:
+    %input{ :id => s, :name => s, :type => "text" }
+  %p
+    %input{ :name => "commit", :type => "submit", :value => "Sign in!" }
