@@ -6,7 +6,7 @@ def config
 	@@config
 end
 
-def setup_download_dir
+def setup_download_dir!
 	# try to make all parent directories as well. may well fail...
 	FileUtils.mkdir_p config['download-dir']
 	Rtorrent.new.cwd = config['download-dir']
