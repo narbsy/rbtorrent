@@ -7,7 +7,8 @@
     = script "/application.js"
   %body
     #header
-      %h1.big RbTorrent
+      %h1.big
+        %a{ :href => "/" } RbTorrent
       %h3.small rtorrent webgui built in Sinatra
       - if logged_in?
         .small
@@ -18,8 +19,8 @@
         .small
           %a{ :href => "/login" } Log in
       .clear
-    #nav
-      %a{ :href => "/add" } Add new torrent
-      = yield_content :nav
+      #nav
+        %a{ :href => "/add", :style => "margin-left: 0.5%" } Add new torrent
+        = yield_content :nav
     .content
       = yield

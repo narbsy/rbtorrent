@@ -1,3 +1,4 @@
+
 - status = 'finished'
 - content_for :nav do
   %div{ :style => "float: right; padding-right: 0.5%;" }
@@ -8,6 +9,9 @@
 
 %ul.torrents
   - @list.each do |torrent|
+    - # Generate the scp command for this guy
+    - path = File.join(config['download-dir'], torrent.get_name)
+    - scp = "scp narbsy.com:#{path} ~/Videos"
     %li{ :class => torrent.get_status.downcase, :id => torrent.get_hash }
       .title
         %span.name.large
@@ -20,15 +24,27 @@
       .torrent
         %p.hash
           = torrent.get_hash
-        %p.ratio
-          Ratio:
-          = (torrent.get_ratio / 1000.0).round(3)
+        %div
+          %span.ratio
+            Ratio:
+            = (torrent.get_ratio / 1000.0).round(3)
+          %span.rates
+            Upload:
+            = torrent.get_up_rate
+            Download:
+            = torrent.get_down_rate
         %p.percentage
           %div{ :style => "margin: auto" }
             = percent_bar torrent.percentage
         %p{ :style => "clear: both" }
           - [:stop, :start, :erase].each do |action|
             %a{ :href => "#", :onclick => "return action_with_hash('/#{action}', '#{ torrent.get_hash }');" }= action.capitalize
+          %span.on-top
+            = scp
+            = clippy(scp.shellescape)
+
+#stuff
+  hi!
 
 
 

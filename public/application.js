@@ -5,7 +5,6 @@ $(document).ready(function(){
   $('.title').click(function() {
     $(this).siblings('.torrent').slideToggle();
   });
-
   
   var seconds = 1000;
   var minutes = 60 * seconds;
@@ -15,31 +14,27 @@ $(document).ready(function(){
   $.idleTimer( 1 * minutes );
 
   $(document).bind("idle.idleTimer", function(){
-    clearInterval(update_interval);
-    update_interval = setInterval( update_torrents, 15 * minutes );
-    console.log("setting interval to 15 minutes");
+    change_update_interval(15 * minutes);
   });
   
   $(document).bind("active.idleTimer", function(){
-    clearInterval(update_interval);
-    update_interval = setInterval( update_torrents, 10 * seconds );
-    console.log("setting interval to 10 seconds");
+    change_update_interval(10 * seconds);
   }); 
 });
 
+function change_update_interval(new_interval){
+  clearInterval(update_interval);
+  update_interval = setInterval( update_torrents, new_interval );
+}
+
 function update_torrents(){
   $.get('/update', function(data) {
-    console.log('got: ' + data);
-    console.log('data: ' + data.length);
-    var len = data.length;
-    for(i = 0; i < len; i++) {
-      var update = data[i];
+    data.forEach( function(update){
       var hash = update.hash;
-      console.log(i + ' for: ' + hash );
-      console.log(data.length);
+      console.log(' for: ' + hash);
       // ratio
       var elem = $('#' + hash + ' .torrent .ratio');
-      $(elem).text('Ratio: ' + (update.ratio / 1000));
+      $(elem).text('Ratio: ' + (update.ratio / 1000).toFixed(3));
       //percentage
       elem = $('#' + hash + ' .torrent .percent span');
       var percent = update.percentage * 100;
@@ -47,15 +42,20 @@ function update_torrents(){
       $(elem).css('width', percent + '%');
       //status
       update_status(hash, update.status);
-    }
+      //up, down rates
+      var up = (update.up_rate / 1024).toFixed(2);
+      var down = (update.down_rate / 1024).toFixed(2);
+      var elem = $('#' + hash + ' .torrent .rates');
+      $(elem).text('Upload: ' + up + 'KB/s Download: KB/s' + down);
+    });
   }, 'json');
 }
 
 function hide_all_but(css_class){
   var css = '.' + css_class
-  var li = $('li');
-  li.not(css).hide();
-  $('li ' + css).show();
+  $('li:not(' + css + ')').hide();
+  console.log(css);
+  $('li' + css).show();
   // which one is faster?
   // li.filter(css).show();
   return false;
@@ -79,5 +79,4 @@ function action_with_hash(action, hash){
 	);
 	return false;
 }
-
 
