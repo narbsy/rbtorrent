@@ -31,7 +31,6 @@ function update_torrents(){
   $.get('/update', function(data) {
     data.forEach( function(update){
       var hash = update.hash;
-      console.log(' for: ' + hash);
       // ratio
       var elem = $('#' + hash + ' .torrent .ratio');
       $(elem).text('Ratio: ' + (update.ratio / 1000).toFixed(3));
@@ -46,7 +45,7 @@ function update_torrents(){
       var up = (update.up_rate / 1024).toFixed(2);
       var down = (update.down_rate / 1024).toFixed(2);
       var elem = $('#' + hash + ' .torrent .rates');
-      $(elem).text('Upload: ' + up + 'KB/s Download: KB/s' + down);
+      $(elem).text('Upload: ' + up + 'KB/s Download: ' + down + 'KB/s');
     });
   }, 'json');
 }
@@ -54,7 +53,6 @@ function update_torrents(){
 function hide_all_but(css_class){
   var css = '.' + css_class
   $('li:not(' + css + ')').hide();
-  console.log(css);
   $('li' + css).show();
   // which one is faster?
   // li.filter(css).show();

@@ -36,15 +36,14 @@
         %p.percentage
           %div{ :style => "margin: auto" }
             = percent_bar torrent.percentage
-        %p{ :style => "clear: both" }
+        %p.clear
           - [:stop, :start, :erase].each do |action|
             %a{ :href => "#", :onclick => "return action_with_hash('/#{action}', '#{ torrent.get_hash }');" }= action.capitalize
           %span.on-top
-            = scp
+            %a{ :href => "#", :onclick => "$(event.target).siblings().toggle();" } >
+            %span
+              = scp
             = clippy(scp.shellescape)
-
-#stuff
-  hi!
 
 
 

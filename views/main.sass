@@ -48,8 +48,6 @@
     // padding-top: 1%
     // padding-bottom: 0.5%
     margin-right: 0.5%
-  .clear
-    clear: both
 
 !c = #4165A9
 #nav
@@ -119,8 +117,14 @@ form
   height: auto
   margin: 1px
 
+.clear
+  clear: both
+
 .torrent
   border-top = "1px solid #{ !color2 }"
+  p.clear
+    position: relative
+    z-index: 1
 
 .on-top
   border: 1px solid blue
