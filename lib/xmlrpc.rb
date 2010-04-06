@@ -1,5 +1,6 @@
 require 'xmlrpc/client'
 
+# Essentially proxy class that asks twice on failure. Makes life a lot easier.
 class Client
 	def initialize(host)
 		@host = host

@@ -1,9 +1,14 @@
+# TODO: FIX
+# nop it for now
+def puts(*args)
+end
+
 # Notes:
 #		By convention, we assume that we have left Rtorrent's cwd at the download
 #		directory.
 class Rtorrent
 	def initialize
-		@client = Client.new nil
+		@client = Client.new config[:host]
 	end
 
 	def load(file, start = true)
@@ -62,7 +67,8 @@ class Rtorrent
 		# query state
 
 		def percentage
-      (get_size_chunks / get_completed_chunks.to_f).round(4)
+      return 0 if get_completed_chunks == 0
+      (get_completed_chunks / get_size_chunks.to_f).round(4)
 		end
 
 		def get_status(force = false)
@@ -83,6 +89,29 @@ class Rtorrent
 				"Seeding"
 			end
 		end
+
+    def self.get(hash)
+      # No property loading in advance
+      self.new( Client.new(config[:host]), get_hash: hash )
+    end
+
+    def self.all(args={})
+      view = args.delete(:view) || "default"
+      method = args.delete(:method) || "d"
+
+      properties = args.delete(:properties)
+      properties ||= [  :get_hash, :get_state, :get_ratio, :get_complete, 
+                        :is_open, :get_size_chunks, :get_completed_chunks, 
+                        :get_down_rate, :get_up_rate, :get_name ]
+
+      client = Client.new config[:host]
+
+      client.call("#{method}.multicall", view, *properties).map do |t|
+        properties_hash = {}
+        method_names.each_with_index { |e, i| properties_hash[e.to_sym] = t[i] }
+        self.new(client, properties_hash)
+      end
+    end
 	end
 
 	def list(view, *args)

@@ -13,8 +13,7 @@ before do
 end
 
 get '/' do
-  @rtorrent = Rtorrent.new
-  @list = @rtorrent.list "default", "d.get_hash=", "d.get_name=", "d.get_state=", "d.get_ratio=", "d.get_complete=", "d.is_open=", "d.get_size_chunks=", "d.get_completed_chunks="
+  @list = Rtorrent::Torrent.all
 
   haml :index
 end
@@ -43,10 +42,10 @@ post '/add' do
   haml :add
 end
 
-# note, i should change this to put probably.
+# note, i should change this to 'put' probably.
 [:stop, :erase, :start].each do |route|
   post '/' + route do
-    torrent = Rtorrent.new.from_hash(params[:hash])
+    torrent = Rtorrent::Torrent.get params[:hash]
     torrent.send route
     # set headers
     content_type :json
@@ -54,17 +53,19 @@ end
   end
 end
 
-get '/update' do
-  @rtorrent = Rtorrent.new
-  @list = @rtorrent.list "default", "d.get_hash=", "d.get_name=", "d.get_state=", "d.get_ratio=", "d.get_complete=", "d.is_open=", "d.get_size_chunks=", "d.get_completed_chunks="
 
-  # We're really interested in updating: ratio, percentage & status, so we need to update a couple of properties.
-  list = @rtorrent.list "default", "d.get_hash=", "d.get_state=", "d.get_ratio=", "d.get_complete=", "d.is_open=", "d.get_size_chunks=", "d.get_completed_chunks="
+# TODO: figure out how to send new torrents over to the web front end via ajax
+get '/update' do
+  # I love ruby. This passes an array to the non-optional paramter 'properties'
+  list = Rtorrent::Torrent.all :properties => [ :get_hash, :get_state, :get_ratio, 
+                                                :get_complete, :is_open, :get_size_chunks, 
+                                                :get_completed_chunks, :get_down_rate, 
+                                                :get_up_rate ]
 
   content_type :json 
   list.map do |torrent|
     h = {}
-    [:hash, :status, :ratio].each do |property|
+    [:hash, :status, :ratio, :down_rate, :up_rate].each do |property|
       h[property] = torrent.send "get_#{property}" 
     end
     h[:percentage] = torrent.percentage
