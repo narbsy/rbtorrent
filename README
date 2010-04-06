@@ -1,3 +1,4 @@
 A lightweight web-ui for rtorrent built using sinatra.
 
-Now using: git://github.com/paulirish/yui-misc.git to slow down refresh requests when you are idle.
+The UI is rather basic, as is some of the functionality. For example, there are no private torrents.
+
