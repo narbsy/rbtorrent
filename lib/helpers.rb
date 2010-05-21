@@ -5,7 +5,7 @@ helpers do
 	
 	def percent_bar(percent)
 		if percent.is_a? Float
-			percent = (percent * 100).floor
+			percent = (percent * 100).round(4)
 		end
 
 		capture_haml do
