@@ -11,7 +11,7 @@
   - @list.each do |torrent|
     - # Generate the scp command for this guy
     - path = File.join(config['download-dir'], torrent.get_name)
-    - scp = "scp narbsy.com:#{path} ~/Videos"
+    - scp = "scp narbsy.com:\"#{path}\" ~/Videos"
     %li{ :class => torrent.get_status.downcase, :id => torrent.get_hash }
       .title
         %span.name.large
@@ -31,19 +31,44 @@
           %span.rates
             Upload:
             = torrent.get_up_rate
+            KB/s
+
             Download:
             = torrent.get_down_rate
-        %p.percentage
-          %div{ :style => "margin: auto" }
+            KB/s
+        %p
+          %div.percentage{ :style => "margin: auto" }
             = percent_bar torrent.percentage
         %p.clear
           - [:stop, :start, :erase].each do |action|
             %a{ :href => "#", :onclick => "return action_with_hash('/#{action}', '#{ torrent.get_hash }');" }= action.capitalize
           %span.on-top
-            %a{ :href => "#", :onclick => "$(event.target).siblings().toggle();" } >
+            %a{ :href => "#", :onclick => "slide(event, '<', '>');" } <
             %span
               = scp
-            = clippy(scp.shellescape)
+              = clippy(scp.shellescape)
+        %p.clear
+          Files
+          %a{ :href => "#", :onclick => "slide(event, '<', 'V');" } <
+          %span
+            %form.files{ :method => "POST", :action => "/files/#{ torrent.get_hash }" }
+              %table.files
+                %thead
+                  %tr
+                    %th Priority
+                    %th Name
+                    %th % Finished
+                    %th Size
+                %tbody
+                  - torrent.files.each do |file|
+                    %tr
+                      %td
+                        %input{ :type => "checkbox", :name => file.index,
+                                :checked => file.get_priority.nonzero? }
+                      %td= file.name
+                      %td= percent_bar file.percentage
+                      %td= "#{ file.size } MB"
+              %input{ :type => "submit", :name => "downloads" }
 
 
 

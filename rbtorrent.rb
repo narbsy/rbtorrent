@@ -9,7 +9,7 @@ Dir["routes/*.rb"].each { |route| load route }
 setup_download_dir!
 
 before do
-  require_user unless request.path == '/login' || request.path == '/main.css'
+  require_user unless ['/login', '/main.css'].include?(request.path)
 end
 
 get '/' do
@@ -66,7 +66,7 @@ get '/update' do
   list.map do |torrent|
     h = {}
     [:hash, :status, :ratio, :down_rate, :up_rate].each do |property|
-      h[property] = torrent.send "get_#{property}" 
+      h[property] = torrent.send "get_#{property}"
     end
     h[:percentage] = torrent.percentage
     h
@@ -79,4 +79,9 @@ get '/main.css' do
 	sass :main
 end
 
+post '/files/:hash' do
+  torrent = Rtorrent::Torrent.get params[:hash]
+  torrent.set_file_priorities params
 
+  redirect '/'
+end

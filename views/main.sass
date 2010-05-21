@@ -80,7 +80,7 @@ ul.torrents
   li.finished .torrent
     display: none
 
-form
+#login
   border = "1px solid #{ !color2 }"
   background-color = !color5
   color: white
@@ -132,6 +132,8 @@ form
   float: right
   right: 1%
   z-index: 9000
+  span
+    display: none
 
 // Percentage bar from: http://blog.damiles.com/?p=43
 .percent
@@ -148,3 +150,8 @@ form
   float: left
   height: 17px
   font-size: 80%
+
+form.files
+  border: 1px solid blue
+  width: 97%
+  margin: auto

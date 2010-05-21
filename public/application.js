@@ -35,17 +35,17 @@ function update_torrents(){
       var elem = $('#' + hash + ' .torrent .ratio');
       $(elem).text('Ratio: ' + (update.ratio / 1000).toFixed(3));
       //percentage
-      elem = $('#' + hash + ' .torrent .percent span');
-      var percent = update.percentage * 100;
+      elem = $('#' + hash + ' .torrent .percentage .percent span');
+      var percent = (update.percentage * 100).toFixed(2);
       $(elem).text(percent + '%');
       $(elem).css('width', percent + '%');
       //status
       update_status(hash, update.status);
       //up, down rates
-      var up = (update.up_rate / 1024).toFixed(2);
-      var down = (update.down_rate / 1024).toFixed(2);
+      // var up = (update.up_rate / 1024).toFixed(2);
+      // var down = (update.down_rate / 1024).toFixed(2);
       var elem = $('#' + hash + ' .torrent .rates');
-      $(elem).text('Upload: ' + up + 'KB/s Download: ' + down + 'KB/s');
+      $(elem).text('Upload: ' + update.up_rate + 'KB/s Download: ' + update.down_rate + 'KB/s');
     });
   }, 'json');
 }
@@ -76,5 +76,11 @@ function action_with_hash(action, hash){
 		}, "json"
 	);
 	return false;
+}
+
+function slide(event, closed, open){
+  $(event.target).siblings().toggle();
+  var text = $(event.target).text();
+  $(event.target).text( text == closed ? open : closed );
 }
 
