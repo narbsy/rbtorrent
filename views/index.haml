@@ -43,15 +43,15 @@
           - [:stop, :start, :erase].each do |action|
             %a{ :href => "#", :onclick => "return action_with_hash('/#{action}', '#{ torrent.get_hash }');" }= action.capitalize
           %span.on-top
-            %a{ :href => "#", :onclick => "slide(event, '<', '>');" } <
+            %a{ :href => "#", :onclick => "slide(event, '<', '>');" } &lt;
             %span
               = scp
               = clippy(scp.shellescape)
         %p.clear
           Files
-          %a{ :href => "#", :onclick => "slide(event, '<', 'V');" } <
-          %span
-            %form.files{ :method => "POST", :action => "/files/#{ torrent.get_hash }" }
+          %a{ :href => "#", :onclick => "slide(event, '<', 'V');" } &lt;
+          %span{ :style => "display: none;" }
+            %form.files{ :method => :post, :action => "/files/#{ torrent.get_hash }" }
               %table.files
                 %thead
                   %tr
@@ -64,7 +64,7 @@
                     %tr
                       %td
                         %input{ :type => "checkbox", :name => file.index,
-                                :checked => file.get_priority.nonzero? }
+                                :checked => file.get_priority.zero? ? nil : "checked" }
                       %td= file.name
                       %td= percent_bar file.percentage
                       %td= "#{ file.size } MB"

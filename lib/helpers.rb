@@ -25,7 +25,7 @@ html = <<-EOF
   %param(name="allowScriptAccess" value="always")
   %param(name="quality" value="high")
   %param(name="scale" value="noscale")
-  %param(NAME="FlashVars" value="id=url_box_clippy&text=#{text}")
+  %param(name="FlashVars" value="id=url_box_clippy&text=#{text}")
   %param(name="bgcolor" value="#{bgcolor}")
   %embed(src="/clippy.swf"
           width="110"
