@@ -1,34 +1,32 @@
-
 - status = 'finished'
 - content_for :nav do
-  %div{ :style => "float: right; padding-right: 0.5%;" }
-    %a{ :href => "#", :onclick => "return show_all();" } All
+  %ul.right
+    %li
+      %a{ :href => "#", :onclick => "return show_all();" } All |
     - [ 'finished', 'started', 'downloading', 'seeding' ].each do |status|
-      %a{ :href => "#", :onclick => "return hide_all_but('#{status}');" }= status.capitalize
-
+      %li
+        %a{ :href => "#", :onclick => "return hide_all_but('#{status}');" }= status.capitalize
 
 %ul.torrents
   - @list.each do |torrent|
     - # Generate the scp command for this guy
     - path = File.join(config['download-dir'], torrent.get_name)
     - scp = "scp narbsy.com:\"#{path}\" ~/Videos"
-    %li{ :class => torrent.get_status.downcase, :id => torrent.get_hash }
+    %li{ :class => torrent.get_status.downcase, :id => "t" + torrent.get_hash }
       .title
-        %span.name.large
-          = torrent.get_name
+        %span.name.large= torrent.get_name
         %span.status
           [
           = torrent.get_status
           ]
 
       .torrent
-        %p.hash
-          = torrent.get_hash
+        %div.hash= torrent.get_hash
         %div
           %span.ratio
             Ratio:
             = (torrent.get_ratio / 1000.0).round(3)
-          %span.rates
+          %span.rates.right
             Upload:
             = torrent.get_up_rate
             KB/s
@@ -36,29 +34,30 @@
             Download:
             = torrent.get_down_rate
             KB/s
-        %p
+        %div
           %div.percentage{ :style => "margin: auto" }
             = percent_bar torrent.percentage
-        %p.clear
+        %div.clear
           - [:stop, :start, :erase].each do |action|
             %a{ :href => "#", :onclick => "return action_with_hash('/#{action}', '#{ torrent.get_hash }');" }= action.capitalize
-          %span.on-top
+          %span.on-top.right
             %a{ :href => "#", :onclick => "slide(event, '<', '>');" } &lt;
             %span
               = scp
               = clippy(scp.shellescape)
-        %p.clear
+        %div.clear
           Files
           %a{ :href => "#", :onclick => "slide(event, '<', 'V');" } &lt;
-          %span{ :style => "display: none;" }
+          %div{ :style => "display: none;" }
             %form.files{ :method => :post, :action => "/files/#{ torrent.get_hash }" }
               %table.files
                 %thead
                   %tr
-                    %th Priority
+                    %th Download?
                     %th Name
                     %th % Finished
                     %th Size
+                    %th
                 %tbody
                   - torrent.files.each do |file|
                     %tr
@@ -68,6 +67,9 @@
                       %td= file.name
                       %td= percent_bar file.percentage
                       %td= "#{ file.size } MB"
+                      %td
+                        %a{ :onclick => "delete_file('#{ torrent.get_hash }', '#{ file.index }');",
+                            :value => "Delete", :href => "#" } Delete
               %input{ :type => "submit", :name => "downloads" }
 
 

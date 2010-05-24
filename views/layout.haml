@@ -1,6 +1,7 @@
 !!!
 %html( xmlns="http://www.w3.org/1999/xhtml" )
   %head
+    %meta(http-equiv="Content-type" content="text/html;charset=UTF-8")
     %title RbTorrent
     %link{:rel => 'stylesheet', :type => 'text/css', :href => '/main.css'}
     = script "/jquery-1.4.2.js"
@@ -10,14 +11,14 @@
     #header
       %h1.big
         %a{ :href => "/" } RbTorrent
-      %h3.small rtorrent webgui built in Sinatra
+      %h3.small.right.top rtorrent webgui built in Sinatra
       - if logged_in?
-        .small
+        .right.small.login
           Logged in as:
           = session[:openid].display_identifier
           %a{ :href => "/logout" } Logout
       - else
-        .small
+        .right.small.login
           %a{ :href => "/login" } Log in
       .clear
       #nav
@@ -25,3 +26,6 @@
         = yield_content :nav
     .content
       = yield
+    #footer
+      $responsetime
+
