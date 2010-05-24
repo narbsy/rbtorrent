@@ -91,6 +91,10 @@ class Rtorrent
       end
     end
 
+    def file(index)
+      Torrent::TFile.new(@client, self, index)
+    end
+
     def set_file_priorities(on_or_off)
       get_size_files.times do |i|
         @client.call "f.set_priority", get_hash, i, on_or_off[i.to_s] ? 1 : 0
