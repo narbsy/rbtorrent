@@ -84,3 +84,13 @@ function slide(event, closed, open){
   $(event.target).text( text == closed ? open : closed );
 }
 
+function delete_file(hash, index){
+  $.ajax({
+    url: '/files/' + hash + '/' + index,
+    type: 'DELETE',
+    success: function(data) {
+      alert("Successfully deleted file no. " + index + " from disk.");
+    }
+  });
+}
+
