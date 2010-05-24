@@ -6,4 +6,7 @@ require 'sinatra'
 
 require 'rbtorrent'
 
+require 'lib/response_time_injector'
+use Rack::ResponseTimeInjector
+
 run Sinatra::Application
