@@ -6,7 +6,7 @@ class Rtorrent
       def initialize(client, parent, index, properties = {})
         @client = client
         @parent = parent
-        @index  = index
+        @index  = index.to_i # This needs to be an int, or else rtorrent complains
         # quick start caches
         properties.each do |k,v|
           # puts "i: Setting @#{k} to #{v}"
@@ -47,7 +47,12 @@ class Rtorrent
       end
 
       def name
-        @get_path
+        get_path
+      end
+
+      def delete_physical_copy
+        # puts "deleting: #{ File.join( config['download-dir'], @parent.get_name, name ) } "
+        # system("rm #{ File.join( config['download-dir'], @parent.get_name, name ) }")
       end
     end
   end
