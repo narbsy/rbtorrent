@@ -33,7 +33,7 @@ class Client
       results = call("#{@prefix}.multicall", *params, *methods.map do |e|
         s = e.to_s
         s = "#{@prefix}." + s unless s[0..1] =~ /(d|f|p|t)\.|(sy)/
-        (s.to_s + "=")
+        (s.to_s + (s[-1] == "=" ? "" : "="))
       end)
       # nil this out for the next call
 

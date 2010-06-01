@@ -1,5 +1,3 @@
-require 'ostruct'
-
 class Rtorrent
   # Note, the ratio is calculated so that it can be sent as an integer over the
   # wire. It's got a precision of 3 places. real_ratio = get_ratio / 1000.0
