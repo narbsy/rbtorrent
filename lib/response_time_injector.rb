@@ -14,7 +14,7 @@ class Rack::ResponseTimeInjector
   def call(env)
     t0 = Time.now
     returning @app.call(env) do |status, headers, body|
-      if body.kind_of? Array
+      if body.kind_of?(Array) && body.last
         body.last.gsub! /\$responsetime(?:\((.+)\))?/ do
           diff = Time.now - t0
           if @format.respond_to? :call
