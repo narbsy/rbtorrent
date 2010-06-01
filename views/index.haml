@@ -15,7 +15,7 @@
     %li{ :class => torrent.get_status.downcase, :id => "t" + torrent.get_hash }
       .title
         %span.name.large= torrent.get_name
-        %span.status
+        %span.status.right
           [
           = torrent.get_status
           ]
@@ -47,30 +47,7 @@
               = clippy(scp.shellescape)
         %div.clear
           Files
-          %a{ :href => "#", :onclick => "slide(event, '<', 'V');" } &lt;
-          %div{ :style => "display: none;" }
-            %form.files{ :method => :post, :action => "/files/#{ torrent.get_hash }" }
-              %table.files
-                %thead
-                  %tr
-                    %th Download?
-                    %th Name
-                    %th % Finished
-                    %th Size
-                    %th
-                %tbody
-                  - torrent.files.each do |file|
-                    %tr
-                      %td
-                        %input{ :type => "checkbox", :name => file.index,
-                                :checked => file.get_priority.zero? ? nil : "checked" }
-                      %td= file.name
-                      %td= percent_bar file.percentage
-                      %td= "#{ file.size } MB"
-                      %td
-                        %a{ :onclick => "delete_file('#{ torrent.get_hash }', '#{ file.index }');",
-                            :value => "Delete", :href => "#" } Delete
-              %input{ :type => "submit", :name => "downloads" }
-
-
+          %a{ :href => "#", :onclick => "get_file_list('#{ torrent.get_hash }'); slide(event, '<', 'V');" } &lt;
+          %div.file-table{ :style => "display: none;" }
+            %img{ :src => "/ajax-loader.gif", :alt => "Loading..." }
 

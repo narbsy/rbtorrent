@@ -56,7 +56,7 @@ end
 
 # TODO: figure out how to send new torrents over to the web front end via ajax
 get '/update' do
-  # I love ruby. This passes an array to the non-optional paramter 'properties'
+  # Get only the properties we care about for the torrent updates
   list = Rtorrent::Torrent.all :properties => [ :get_hash, :get_state, :get_ratio, 
                                                 :get_complete, :is_open, :get_size_chunks, 
                                                 :get_completed_chunks, :get_down_rate, 
@@ -79,24 +79,4 @@ get '/main.css' do
 	sass :main
 end
 
-post '/files/:hash' do
-  torrent = Rtorrent::Torrent.get params[:hash]
-  torrent.set_file_priorities params
 
-  redirect '/'
-end
-
-delete '/files/:hash/:index' do
-  puts params
-  torrent = Rtorrent::Torrent.get params[:hash]
-  file = torrent.file params[:index]
-  puts file.name
-  
-  if file.delete_physical_copy
-    status 200
-  else
-    status 400
-  end
-  # We really only care about sending the status.
-  ""
-end

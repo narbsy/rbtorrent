@@ -110,6 +110,8 @@ ul.torrents
   border = "1px solid #{ !color2 }"
   background-color = !color5
   color: white
+
+form
   input[type="text"]
     width: 100%
 
@@ -125,10 +127,9 @@ ul.torrents
   font-size: 140%
 
 .status
-  // float: right
   vertical-align: text-bottom
   margin-right: 0.5%
-  margin-top: 0.25%
+  margin-top: 0.3%
 
 .ratio
 
@@ -178,10 +179,18 @@ form.files
   width: 97%
   margin: auto
 
+  table
+    width: 100%
   td
+    +flat
     font-size: 90%
+    width: auto
+
+.file-table img
+  display: block
+  margin: auto
 
 #footer
-  position: absolute
+  position: fixed
   bottom: 0px
   text-align: right

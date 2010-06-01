@@ -1,6 +1,6 @@
 var update_interval = undefined;
 
-$(document).ready(function(){
+$(document).ready(function() {
   // Show/hide sibling .torrent
   $('.title').click(function() {
     $(this).siblings('.torrent').slideToggle();
@@ -13,23 +13,23 @@ $(document).ready(function(){
   // Idle after 1 minute
   $.idleTimer( 1 * minutes );
 
-  $(document).bind("idle.idleTimer", function(){
+  $(document).bind("idle.idleTimer", function() {
     change_update_interval(15 * minutes);
   });
   
-  $(document).bind("active.idleTimer", function(){
+  $(document).bind("active.idleTimer", function() {
     change_update_interval(10 * seconds);
   }); 
 });
 
-function change_update_interval(new_interval){
+function change_update_interval(new_interval) {
   clearInterval(update_interval);
   update_interval = setInterval( update_torrents, new_interval );
 }
 
 function update_torrents(){
   $.get('/update', function(data) {
-    data.forEach( function(update){
+    data.forEach( function(update) {
       var hash = update.hash;
       // ratio
       var elem = $('#' + hash + ' .torrent .ratio');
@@ -50,7 +50,7 @@ function update_torrents(){
   }, 'json');
 }
 
-function hide_all_but(css_class){
+function hide_all_but(css_class) {
   var css = '.' + css_class
   $('li:not(' + css + ')').hide();
   $('li' + css).show();
@@ -59,18 +59,18 @@ function hide_all_but(css_class){
   return false;
 }
 
-function show_all(){
+function show_all() {
   $('li').show();
   return false;
 }
 
-function update_status(hash, new_status){
+function update_status(hash, new_status) {
   $('#' + hash + ' .title .status').html('[ ' + new_status + ' ]');
 }
 
-function action_with_hash(action, hash){
+function action_with_hash(action, hash) {
 	$.post(action, { hash: hash }, 
-		function(data){
+		function(data) {
 			alert('finished: ' + action + '\n\n\n\n' + data.status);
       update_status(hash, data.status);
 		}, "json"
@@ -78,13 +78,13 @@ function action_with_hash(action, hash){
 	return false;
 }
 
-function slide(event, closed, open){
+function slide(event, closed, open) {
   $(event.target).siblings().toggle();
   var text = $(event.target).text();
   $(event.target).text( text == closed ? open : closed );
 }
 
-function delete_file(hash, index){
+function delete_file(hash, index) {
   $.ajax({
     url: '/files/' + hash + '/' + index,
     type: 'DELETE',
@@ -92,5 +92,14 @@ function delete_file(hash, index){
       alert("Successfully deleted file no. " + index + " from disk.");
     }
   });
+}
+
+function get_file_list(hash){
+  $.get( '/files/' + hash, { },
+    function(data) {
+      $('#t' + hash + ' .file-table').html(data);
+    }, "html"
+  );
+  return false;
 }
 
