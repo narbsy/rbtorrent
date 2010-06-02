@@ -1,6 +1,8 @@
 helpers do
-	def script(src)
-		haml "%script{:type => 'text/javascript', :src => '#{ src }' }", :layout => false
+	def script(*sources)
+    sources.map do |source|
+      haml "%script{:type => 'text/javascript', :src => '#{ source }' }", :layout => false
+    end.join("\n")
 	end
 	
 	def percent_bar(percent)
@@ -19,7 +21,7 @@ helpers do
     html = <<-EOF
 %object{  :type => "application/x-shockwave-flash",
           :data => "/clippy.swf",
-          :width => "110",
+          :width => "14",
           :height => "14",
           :id => "clippy" }
   %param(name="movie" value="/clippy.swf")
