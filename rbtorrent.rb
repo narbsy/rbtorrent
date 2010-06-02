@@ -7,9 +7,13 @@ Dir["lib/*.rb"].each { |lib| require lib }
 Dir["routes/*.rb"].each { |route| load route }
 
 setup_download_dir!
+# Make sure we set the correct mime_type for Chrome
+mime_type :js, "text/javascript"
 
 before do
-  require_user unless ['/login', '/main.css'].include?(request.path)
+  unless ['/login', '/main.css'].include?(request.path) || request.path.end_with?("js")
+    require_user
+  end
 end
 
 get '/' do
@@ -48,6 +52,7 @@ end
     torrent = Rtorrent::Torrent.get params[:hash]
     torrent.send route
     # set headers
+
     content_type :json
     {status: torrent.get_status(true)}.to_json
   end
