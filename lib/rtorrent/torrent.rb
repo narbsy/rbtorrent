@@ -1,58 +1,44 @@
+require 'lib/remote_attr'
+
 class Rtorrent
-  # Note, the ratio is calculated so that it can be sent as an integer over the
-  # wire. It's got a precision of 3 places. real_ratio = get_ratio / 1000.0
-	class Torrent
+  # Inherit from BasicObject so that we are pretty sure we're not going to
+  # override any methods.
+	class Torrent < BasicObject
+    extend RemoteAttr
+
+    attr_reader :hash
+    remote_attr :get_size_chunks, :get_completed_chunks, :get_state, :get_name, 
+      :get_down_rate, :get_down_total, :get_up_rate, :get_up_total, :get_ratio, 
+      :is_open, :get_complete, :get_size_files, :get_chunk_size,
+      :prefix => :d, :default_arguments => @hash, :rubify => true
+
 		def initialize(client, properties = {})
 			@client = client
 			raise ArgumentError unless (@hash = properties.delete(:get_hash))
 			# quick start caches
 			properties.each do |k,v|
-				# puts "i: Setting @#{k} to #{v}"
+        k = match[1] if (match = /get_(.*)/.match(k))
 				instance_variable_set "@#{k}", v
 			end
 		end
 
     private :initialize
 
-		# State of the torrent; define a method that caches results but can force refresh them.
-		[ :get_size_chunks, :get_completed_chunks, :get_state, :get_name, :get_down_rate, 
-			:get_down_total, :get_up_rate, :get_up_total, :get_ratio, :is_open, :get_complete, 
-      :get_size_files, :get_chunk_size ].each do |m|
-			attr_reader m
-			ivar_name = "@#{m}".to_sym
-			define_method(m, ->(force = false) do
-				i = instance_variable_get ivar_name
-			  #	puts "m: #{ivar_name} set to: #{i}: VAR IS #{ i ? "SET" : "NOT" }"
-				if i.nil? || force
-					r = @client.call("d.#{m}", @hash)
-					# puts "m: Setting #{ivar_name} to #{ r }"
-					instance_variable_set ivar_name, r
-				end
-				instance_variable_get ivar_name
-			end)
-		end
-	
 		# Various manipulative actions
 		[ :stop, :start, :erase ].each do |m|
-			define_method m do
+			define_method "#{m}!" do
 				@client.call "d.#{m}", get_hash
 			end
 		end
 
     # We want these to be proper values
-    [ :get_up_rate, :get_down_rate ].each do |rate|
+    [ :up_rate, :down_rate ].each do |rate|
       define_method rate do
-        (@client.call("d.#{rate}", get_hash) / 1024).round(4)
+        (@client.call("d.get_#{rate}", hash) / 1024).round(4)
       end
     end
 
 		public
-		# manipulate state
-
-		def get_hash
-			@hash
-		end
-
 		# query state
 		def percentage
       return 0 if get_completed_chunks == 0
@@ -89,6 +75,8 @@ class Rtorrent
       end
     end
 
+    # Doesn't do any pre-loading, making it *really* slow if used for multiple
+    # files.
     def file(index)
       Torrent::TFile.new(@client, self, index)
     end

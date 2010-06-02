@@ -50,9 +50,8 @@ end
 [:stop, :erase, :start].each do |route|
   post '/' + route do
     torrent = Rtorrent::Torrent.get params[:hash]
-    torrent.send route
+    torrent.send "#{route}!"
     # set headers
-
     content_type :json
     {status: torrent.get_status(true)}.to_json
   end
