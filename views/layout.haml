@@ -4,9 +4,7 @@
     %meta(http-equiv="Content-type" content="text/html;charset=UTF-8")
     %title RbTorrent
     %link{:rel => 'stylesheet', :type => 'text/css', :href => '/main.css'}
-    = script "/jquery-1.4.2.js"
-    = script "/idle-timer.js"
-    = script "/application.js"
+    = script "/jquery-1.4.2.js", "/idle-timer.js", "/application.js"
   %body
     #header
       %h1.big
@@ -22,7 +20,7 @@
           %a{ :href => "/login" } Log in
       .clear
       #nav
-        %a{ :href => "/add", :style => "margin-left: 0.5%" } Add new torrent
+        %a{ :href => "/add", :id => :add } Add new torrent
         = yield_content :nav
     .content
       = yield
