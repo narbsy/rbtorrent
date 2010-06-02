@@ -21,7 +21,7 @@ helpers do
     html = <<-EOF
 %object{  :type => "application/x-shockwave-flash",
           :data => "/clippy.swf",
-          :width => "14",
+          :width => "110",
           :height => "14",
           :id => "clippy" }
   %param(name="movie" value="/clippy.swf")
