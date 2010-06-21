@@ -3,7 +3,7 @@ require 'lib/remote_attr'
 class Rtorrent
   class Torrent
     class TFile < BasicObject
-      extend RemoteAttr
+      extend ::RemoteAttr
 
       attr_reader :index
       remote_attr :get_size_chunks, :get_completed_chunks, :get_path, :get_priority,
@@ -11,8 +11,8 @@ class Rtorrent
         :get_match_depth_prev, :get_offset, :get_path_components,
         :get_path_depth, :get_range_first, :get_range_second,
         :get_size_bytes, 
-        :prefix => :f, :default_arguments => [@parent.get_hash, @index],
-        :rubify => true
+        :prefix => :f, :rubify => true,
+        :default_arguments => [ @parent.method(:hash), method(:index) ]
       
 
       def initialize(client, parent, index, properties = {})

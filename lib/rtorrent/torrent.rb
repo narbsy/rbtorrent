@@ -4,13 +4,14 @@ class Rtorrent
   # Inherit from BasicObject so that we are pretty sure we're not going to
   # override any methods.
 	class Torrent < BasicObject
-    extend RemoteAttr
+    extend ::RemoteAttr
 
     attr_reader :hash
     remote_attr :get_size_chunks, :get_completed_chunks, :get_state, :get_name, 
       :get_down_rate, :get_down_total, :get_up_rate, :get_up_total, :get_ratio, 
       :is_open, :get_complete, :get_size_files, :get_chunk_size,
-      :prefix => :d, :default_arguments => @hash, :rubify => true
+      :prefix => :d, :default_arguments => [ method(:hash) ], :rubify => true
+
 
 		def initialize(client, properties = {})
 			@client = client
@@ -21,6 +22,7 @@ class Rtorrent
 				instance_variable_set "@#{k}", v
 			end
 		end
+
 
     private :initialize
 

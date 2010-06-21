@@ -14,17 +14,14 @@ module RemoteAttr
       raise ArgumentError, "Must specify a prefix for the method calls!"
     end
 
-    unless (default_arguments = options.delete(:default_arguments))
-      raise ArgumentError, "Must specify the default arguments for the method calls! Typically, this is the identity of an item."
+    unless (identity_function = options.delete(:identity_func))
+      raise ArgumentError, "Must specify the function to call to get the identity of an item."
     end
-
-    default_arguments = [default_arguments] unless default_arguments.is_a? Array
-
 
     # If an attribute is of the form: 
     #   get_foo => foo
     # NOTE: Set methods not supported, as I haven't had any need for them yet.
-    if option[:rubify] == true
+    if options[:rubify] == true
       attributes.map! do |attribute|
         if match = /^get_(.*)$/.match(attribute)
           match[1]
@@ -40,11 +37,12 @@ module RemoteAttr
     attributes.each do |m|
       attr_reader m
       ivar_name = "@#{m}".to_sym # a reference to the variable for our methods
+      identity = default_arguments.map { |e| method(e) }
       define_method(m, ->(force = false) do # An option to force the reloading of the ivar
         i = instance_variable_get ivar_name
         # Make sure we reload if the ivar isn't set.
         if i.nil? || force
-          r = @client.call("#{prefix}.get_#{m}", *default_arguments)
+          r = @client.call("#{prefix}.get_#{m}", *(identity.map(&:call)))
           instance_variable_set ivar_name, r
         end
         instance_variable_get ivar_name
