@@ -1,0 +1,32 @@
+!!!
+%html( xmlns="http://www.w3.org/1999/xhtml" )
+  %head
+    %meta(http-equiv="Content-type" content="text/html;charset=UTF-8")
+    %title RbTorrent
+    = stylesheet_link_tag "main.css"
+    = javascript_include_tag "/jquery-1.4.2.js", "/idle-timer.js", "/application.js"
+  %body
+    #header
+      %h1.big
+        %a{ :href => "/" } RbTorrent
+      %h3.small.right.top rtorrent webgui built in Sinatra
+      - if user_signed_in?
+        .right.small.login
+          Logged in as:
+          = session[:openid].display_identifier
+          %a{ :href => "/logout" } Logout
+      - else
+        .right.small.login
+          %a{ :href => "/login" } Log in
+      .clear
+      #nav
+        %a{ :href => "/add", :id => :add } Add new torrent
+        = yield :nav
+    #notices
+      .notice= notice
+      .alert= alert
+    .content
+      = yield
+    #footer
+      $responsetime
+

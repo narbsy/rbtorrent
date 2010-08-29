@@ -1,12 +1,4 @@
-require 'rubygems'
-require 'sinatra'
+# This file is used by Rack-based servers to start the application.
 
-# set :environment, :production
-# set :port, 4567
-
-require 'rbtorrent'
-
-require 'lib/response_time_injector'
-use Rack::ResponseTimeInjector
-
-run Sinatra::Application
+require ::File.expand_path('../config/environment',  __FILE__)
+run Rbtorrent::Application

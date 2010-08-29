@@ -1,0 +1,53 @@
+- status = 'finished'
+- content_for :nav do
+  %ul.right
+    %li
+      %a{ :href => "#", :onclick => "return show_all();" } All |
+    - [ 'finished', 'started', 'downloading', 'seeding' ].each do |status|
+      %li
+        %a{ :href => "#", :onclick => "return hide_all_but('#{status}');" }= status.capitalize
+
+%ul.torrents
+  - @torrents.each do |torrent|
+    - # Generate the scp command for this guy
+    - path = File.join(config['download-dir'], torrent.get_name)
+    - scp = "scp narbsy.com:\"#{path}\" ~/Videos"
+    %li{ :class => torrent.get_status.downcase, :id => "t" + torrent.get_hash }
+      .title
+        %span.name.large= torrent.get_name
+        %span.status.right
+          [
+          = torrent.get_status
+          ]
+
+      .torrent
+        %div.hash= torrent.get_hash
+        %div
+          %span.ratio
+            Ratio:
+            = (torrent.get_ratio / 1000.0).round(3)
+          %span.rates.right
+            Upload:
+            = torrent.get_up_rate
+            KB/s
+
+            Download:
+            = torrent.get_down_rate
+            KB/s
+        %div
+          %div.percentage{ :style => "margin: auto" }
+            = percent_bar torrent.percentage
+        %div.clear
+          - [:stop, :start, :erase].each do |action|
+            %a{ :href => "#", :onclick => "return action_with_hash('/#{action}', '#{ torrent.get_hash }');" }= action.capitalize
+          %span.on-top.right
+            %a{ :href => "#", :onclick => "slide(event, '<', '>');" } &lt;
+            %span
+              = scp
+              = clippy(scp.shellescape)
+        %div.clear
+          Files
+          %a{ :href => "#", :onclick => "get_file_list('#{ torrent.get_hash }'); slide(event, '<', 'V');" } &lt;
+          %div.file-table{ :style => "display: none;" }
+            %img{ :src => "/ajax-loader.gif", :alt => "Loading..." }
+

@@ -1,0 +1,189 @@
+* {
+  font-family: sans-serif; }
+
+#header {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 10%;
+  background-color: blue;
+  border-bottom: 1px solid gray; }
+  #header .big {
+    width: 50%;
+    padding-bottom: 1%;
+    margin: 0;
+    padding: 0; }
+    #header .big a {
+      text-decoration: none; }
+    #header .big a {
+      color: black; }
+      #header .big a:visited {
+        color: black; }
+      #header .big a:hover {
+        color: black; }
+  #header .small {
+    width: 48%;
+    text-align: right;
+    vertical-align: top;
+    margin: 0;
+    padding: 0; }
+    #header .small a a {
+      color: black; }
+      #header .small a a:visited {
+        color: black; }
+      #header .small a a:hover {
+        color: black; }
+
+.right {
+  position: absolute;
+  right: 0px; }
+
+.left {
+  position: absolute;
+  left: 0px; }
+
+.top {
+  position: absolute;
+  top: 0px; }
+
+.right.small.login {
+  position: absolute;
+  top: 14pt; }
+
+#nav {
+  background-color: black;
+  color: gray;
+  padding-bottom: 2px;
+  padding-top: 2px;
+  width: 100%; }
+  #nav a {
+    color: blue; }
+    #nav a:visited {
+      color: blue; }
+    #nav a:hover {
+      color: #007dff; }
+  #nav a {
+    font-weight: bold;
+    text-decoration: none; }
+  #nav ul {
+    margin: 0;
+    padding: 0;
+    display: inline; }
+    #nav ul li {
+      display: inline;
+      border-right: 1px solid blue;
+      padding-left: 2px;
+      margin-left: 2px; }
+    #nav ul li:last-child {
+      border: none; }
+
+#add {
+  margin-left: 0.5%; }
+
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: white; }
+
+ul.torrents {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  margin-top: 0.5%;
+  list-style-type: none; }
+  ul.torrents a {
+    color: #3a30bf; }
+    ul.torrents a:visited {
+      color: #3a30bf; }
+    ul.torrents a:hover {
+      color: #3a30bf; }
+  ul.torrents li {
+    border: 1px solid #3a30bf;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 0.5%;
+    color: #3a30bf; }
+  ul.torrents li.finished .torrent {
+    display: none; }
+
+#login {
+  border: 1px solid #3a30bf;
+  background-color: #1300ff;
+  color: white; }
+
+form input[type="text"] {
+  width: 100%; }
+
+.errors, .messages {
+  color: red;
+  background-color: #7d73ff; }
+
+.content {
+  width: 70%;
+  margin: 0 auto; }
+
+.large {
+  font-size: 140%; }
+
+.status {
+  vertical-align: text-bottom;
+  margin-right: 0.5%;
+  margin-top: 0.3%; }
+
+.rates {
+  margin-right: 0.5%; }
+
+.title {
+  width: 100%;
+  height: auto;
+  margin: 1px; }
+
+.clear {
+  clear: both; }
+
+.torrent {
+  border-top: 1px solid #3a30bf; }
+  .torrent p.clear {
+    position: relative;
+    z-index: 1; }
+
+.on-top {
+  border: 1px solid blue;
+  background: white;
+  z-index: 9000;
+  right: 0.5% !important; }
+  .on-top span {
+    display: none; }
+
+.percent {
+  display: block;
+  background: url(images/percent.png) top left repeat-x;
+  height: 17px;
+  width: 80%; }
+
+.percent span {
+  background: url(images/percent.png) bottom right repeat-x;
+  display: block;
+  height: 17px;
+  font-size: 80%; }
+
+form.files {
+  border: 1px solid blue;
+  width: 97%;
+  margin: auto; }
+  form.files table {
+    width: 100%; }
+  form.files td {
+    margin: 0;
+    padding: 0;
+    font-size: 90%;
+    width: auto; }
+
+.file-table img {
+  display: block;
+  margin: auto; }
+
+#footer {
+  position: fixed;
+  bottom: 0px;
+  text-align: right; }
