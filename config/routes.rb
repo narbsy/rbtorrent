@@ -1,5 +1,4 @@
 Rbtorrent::Application.routes.draw do
-  devise_for :users
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -58,6 +57,7 @@ Rbtorrent::Application.routes.draw do
   # Note: This route will make all actions in every controller accessible via GET requests.
   # match ':controller(/:action(/:id(.:format)))'
 
+  devise_for :users
   resources :torrents
 
   root :to => "torrents#index"
