@@ -102,8 +102,10 @@ class Torrent
   end
 
   def set_file_priorities(on_or_off)
-    get_size_files.times do |i|
-      @client.f { call "set_priority", get_hash, i, on_or_off[i.to_s] ? 1 : 0 }
+    @client.f do
+      get_size_files.times do |i|
+        call "set_priority", get_hash, i, on_or_off[i.to_s] ? 1 : 0
+      end
     end
   end
 
@@ -114,10 +116,8 @@ class Torrent
       properties = args.delete(:properties)
       properties ||= MINIMUM_PROPERTIES
 
-      client.d do 
-        multicall(view, *properties).map do |properties_hash|
-          self.new client, properties_hash
-        end
+      client.d.multicall(view, *properties).map do |properties_hash|
+        self.new client, properties_hash
       end
     end
 
