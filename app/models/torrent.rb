@@ -13,8 +13,9 @@ class Torrent
   SPECIAL_METHODS = [ :get_up_rate, :get_down_rate ]
   
   def initialize(client, properties = {})
+    puts properties.inspect
     @client = client
-    raise ArgumentError unless (@hash = properties.delete(:get_hash))
+    raise ArgumentError, "Require get_hash property" unless (@hash = properties.delete(:get_hash))
     # quick start caches
     properties.each do |k,v|
       # puts "i: Setting @#{k} to #{v}"

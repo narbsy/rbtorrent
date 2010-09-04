@@ -36,10 +36,9 @@ class Connection
 
   def multicall(prefix, params, *methods)
     puts "Executing: #{ prefix }.#{methods.inspect}"
-    methods = *methods.map { |e| normalize prefix, e }
+    normalized_methods = *methods.map { |e| normalize prefix, e }
 
-    puts "calling method.."
-    results = call("#{prefix}.multicall", *params, methods)
+    results = call("#{prefix}.multicall", *params, *normalized_methods)
 
     results.map do |t|
       {}.tap do |properties_hash|
