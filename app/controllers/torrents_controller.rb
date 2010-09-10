@@ -1,11 +1,25 @@
 class TorrentsController < ApplicationController
   before_filter :authenticate_user!
+  before_filter :create_connection
 
   def index
-    @host = ConfigOption.get("host")
-    @connection = Connection.new @host.value
     @download_dir = ConfigOption.get "download-dir"
     
-    @torrents = Torrent.all(@connection)
+    @torrents = Torrent.all @connection
+  end
+
+  [ :start, :stop, :erase ].each do |action|
+    define_method action do
+      @torrent = Torrent.find @connection, params[:id]
+      @torrent.send action
+
+      render :json => @torrent.get_status(true)
+    end
+  end
+
+  private
+  def create_connection
+    @host = ConfigOption.get("host")
+    @connection = Connection.new @host.value
   end
 end
