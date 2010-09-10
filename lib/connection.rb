@@ -18,13 +18,6 @@ class Connection
 
   [ :f, :d, :p, :t, :system ].each do |prefix|
     define_method prefix do |&block|
-      # Use like:
-      # client.f do
-      #   multicall(params, methods)
-      #   call(method, args)
-      # end
-      #
-      # Or, client.f.multicall
       w = wrapper(prefix)
       if block_given?
         w.instance_eval &block
@@ -61,27 +54,27 @@ class Connection
   end
 
   class Wrapper
-    def initialize(curr, prefix)
-      @curr = curr
+    def initialize(connection, prefix)
+      @connection = connection
       @prefix = prefix
     end
 
     def multicall(params, *methods)
-      puts "forwarding #{@prefix}.#{methods.inspect} to: #{ @curr }"
-      @curr.multicall(@prefix, params, *methods)
+      puts "forwarding #{@prefix}.#{methods.inspect} to: #{ @connection }"
+      @connection.multicall(@prefix, params, *methods)
     end
 
     def call(method, *args)
-      @curr.call(normalize(@prefix, method), *args)
+      @connection.call(normalize(@prefix, method), *args)
     end
     
     def method_missing(method, *args, &block)
-      @curr.send(method, args, block)
+      @connection.send(method, args, block)
     end
 
     def respond_to?(method)
       return true if [:call, :multicall].include? method
-      @curr.respond_to? method
+      @connection.respond_to? method
     end
   end
 end

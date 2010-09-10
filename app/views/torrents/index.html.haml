@@ -9,9 +9,6 @@
 
 %ul.torrents
   - @torrents.each do |torrent|
-    - # Generate the scp command for this guy
-    - path = File.join(config['download-dir'], torrent.get_name)
-    - scp = "scp narbsy.com:\"#{path}\" ~/Videos"
     %li{ :class => torrent.get_status.downcase, :id => "t" + torrent.get_hash }
       .title
         %span.name.large= torrent.get_name
@@ -36,18 +33,18 @@
             KB/s
         %div
           %div.percentage{ :style => "margin: auto" }
-            = percent_bar torrent.percentage
+            = render :partial => "partials/percent_bar", :object => to_percent(torrent.percentage)
         %div.clear
           - [:stop, :start, :erase].each do |action|
             %a{ :href => "#", :onclick => "return action_with_hash('/#{action}', '#{ torrent.get_hash }');" }= action.capitalize
           %span.on-top.right
             %a{ :href => "#", :onclick => "slide(event, '<', '>');" } &lt;
-            %span
-              = scp
-              = clippy(scp.shellescape)
+            = render :partial => "clippy", :object => File.join(@download_dir.value, torrent.get_name)
         %div.clear
           Files
-          %a{ :href => "#", :onclick => "get_file_list('#{ torrent.get_hash }'); slide(event, '<', 'V');" } &lt;
+          = link_to "CONFIRM", "/torrents", :confirm => "PLEASE?"
+          = link_to "<", torrent_files_url(torrent.get_hash), :onclick => "slide(event, '<', 'V');", :remote => true, :confirm => "Are you sure?"
+          -# %a{ :href => "#", :onclick => "get_file_list('#{ torrent.get_hash }'); slide(event, '<', 'V');" } &lt;
           %div.file-table{ :style => "display: none;" }
-            %img{ :src => "/ajax-loader.gif", :alt => "Loading..." }
+            = image_tag "ajax-loader.gif", :alt => "Loading..."
 

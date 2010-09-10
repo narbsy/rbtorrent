@@ -7,5 +7,7 @@
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
 User.create( :email => 'narbsy@gmail.com', :password => 'oranges' )
-
-ConfigOption.create( [{:name => "torrent-dir", :value => "/home/rtorrent/torrents"}, {:name => "download-dir", :value => "/home/rtorrent/downloads"}] )
+puts "hi"
+ConfigOption.create( :name => "torrent-dir", :value => "/home/rtorrent/torrents" )
+ConfigOption.create( :name => "download-dir", :value => "/home/rtorrent/downloads" )
+ConfigOption.create( :name => "host", :value => "narbsy.com" )

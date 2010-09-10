@@ -1,7 +1,6 @@
 class ConfigOption
   include DataMapper::Resource
 
-  property :id,     Serial
-  property :name,   String
+  property :name,   String, :unique => true, :key => true
   property :value,  String
 end

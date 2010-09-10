@@ -1,5 +1,4 @@
 Rbtorrent::Application.routes.draw do
-
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -58,7 +57,11 @@ Rbtorrent::Application.routes.draw do
   # match ':controller(/:action(/:id(.:format)))'
 
   devise_for :users
-  resources :torrents
+  resources :torrents do
+    resources :files, :controller => "torrent_file"
+  end
+
+  # match '/files/:hash', :to => "torrent_file#index", :via => :get
 
   root :to => "torrents#index"
 end

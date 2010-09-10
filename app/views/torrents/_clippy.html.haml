@@ -1,0 +1,10 @@
+- scp = "scp -r narbsy.com:\'#{escape(clippy)}\' ~/Videos"
+%span
+  = scp
+  %object{  :type => "application/x-shockwave-flash",
+            :data => "/clippy.swf",
+            :width => "110",
+            :height => "14",
+            :id => "clippy" }
+    %param(name="movie" value="/clippy.swf")
+    %param(name="FlashVars" value="text=#{scp}")

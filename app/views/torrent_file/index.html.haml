@@ -1,0 +1,24 @@
+= form_tag "/files/#{ @torrent.get_hash }", :method => :post, :class => "files" do
+  %table.files
+    %thead
+      %tr
+        %th Download?
+        %th Name
+        %th % Finished
+        %th Size
+        %th
+    %tbody
+      - @torrent.files.each do |file|
+        %tr
+          %td
+            %input{ :type => "checkbox", :name => file.index,
+                    :checked => file.get_priority.zero? ? nil : "checked" }
+          %td= file.name
+          %td= render :partial => "partials/percent_bar", :object => to_percent(file.percentage)
+          %td= "#{ file.size } MB"
+          %td
+            %a{ :onclick => "delete_file('#{ @torrent.get_hash }', '#{ file.index }');",
+                :value => "Delete", :href => "#" } Delete
+  %input{ :type => "submit", :name => "downloads" }
+
+

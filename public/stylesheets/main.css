@@ -157,12 +157,12 @@ form input[type="text"] {
 
 .percent {
   display: block;
-  background: url(images/percent.png) top left repeat-x;
+  background: url(/images/percent.png) top left repeat-x;
   height: 17px;
   width: 80%; }
 
 .percent span {
-  background: url(images/percent.png) bottom right repeat-x;
+  background: url(/images/percent.png) bottom right repeat-x;
   display: block;
   height: 17px;
   font-size: 80%; }

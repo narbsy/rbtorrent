@@ -8,8 +8,6 @@ class Torrent
 
   OTHER_PROPERTIES = [ :get_down_total, :get_up_total, :get_chunk_size ]
 
-  ALL_PROPERIES = MINIMUM_PROPERTIES + OTHER_PROPERTIES
-
   SPECIAL_METHODS = [ :get_up_rate, :get_down_rate ]
   
   def initialize(client, properties = {})
@@ -91,15 +89,13 @@ class Torrent
   def files
     properties = [ :get_path ]
     index = 0
-    @client.f do
-      multicall( [get_hash, "0"], *properties ).map do |properties_hash|
-        Torrent::TFile.new(@client, self, index, properties_hash).tap { index += 1 }
-      end
+    @client.f.multicall( [get_hash, "0"], *properties ).map do |properties_hash|
+      TorrentFile.new(@client, self, index, properties_hash).tap { index += 1 }
     end
   end
 
   def file(index)
-    Torrent::TFile.new(@client, self, index)
+    TorrentFile.new(@client, self, index)
   end
 
   def set_file_priorities(on_or_off)
@@ -123,6 +119,7 @@ class Torrent
     end
 
     def find(client, hash)
+      puts "hi"
       self.new client, get_hash: hash
     end
   end
