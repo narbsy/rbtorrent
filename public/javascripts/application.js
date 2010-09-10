@@ -6,7 +6,8 @@ $(document).ready(function() {
     $(this).siblings('.torrent').slideToggle();
   });
   
-  var seconds = 1000;
+  //var seconds = 1000;
+  var seconds = 200000; // million years
   var minutes = 60 * seconds;
 
   update_interval = setInterval( update_torrents, 10 * seconds );
@@ -82,6 +83,7 @@ function slide(event, closed, open) {
   $(event.target).siblings().toggle();
   var text = $(event.target).text();
   $(event.target).text( text == closed ? open : closed );
+  return text == closed;
 }
 
 function delete_file(hash, index) {
@@ -92,14 +94,5 @@ function delete_file(hash, index) {
       alert("Successfully deleted file no. " + index + " from disk.");
     }
   });
-}
-
-function get_file_list(hash){
-  $.get( '/files/' + hash, { },
-    function(data) {
-      $('#t' + hash + ' .file-table').html(data);
-    }, "html"
-  );
-  return false;
 }
 

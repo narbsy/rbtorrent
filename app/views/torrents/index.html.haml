@@ -42,9 +42,7 @@
             = render :partial => "clippy", :object => File.join(@download_dir.value, torrent.get_name)
         %div.clear
           Files
-          = link_to "CONFIRM", "/torrents", :confirm => "PLEASE?"
-          = link_to "<", torrent_files_url(torrent.get_hash), :onclick => "slide(event, '<', 'V');", :remote => true, :confirm => "Are you sure?"
-          -# %a{ :href => "#", :onclick => "get_file_list('#{ torrent.get_hash }'); slide(event, '<', 'V');" } &lt;
+          = link_to "<", torrent_files_url(torrent.get_hash), :onclick => "slide(event, '<', 'V');", :remote => true
           %div.file-table{ :style => "display: none;" }
             = image_tag "ajax-loader.gif", :alt => "Loading..."
 
