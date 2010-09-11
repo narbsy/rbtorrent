@@ -11,8 +11,7 @@
       - @torrent.files.each do |file|
         %tr
           %td
-            %input{ :type => "checkbox", :name => file.index,
-                    :checked => file.get_priority.zero? ? nil : "checked" }
+            = check_box_tag file.index, "on", file.get_priority.nonzero?
           %td= file.name
           %td= render :partial => "partials/percent_bar", :object => to_percent(file.percentage)
           %td= "#{ file.size } MB"
