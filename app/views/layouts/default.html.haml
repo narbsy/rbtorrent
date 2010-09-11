@@ -21,7 +21,7 @@
         = link_to "Log in", new_user_session_url
       .clear
       #nav
-        %a{ :href => "/add", :id => :add } Add new torrent
+        = link_to "Add new torrent", new_torrent_path, :id => :add
         = yield :nav
     #notices
       .notice= notice

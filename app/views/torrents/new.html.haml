@@ -1,0 +1,9 @@
+= form_for "torrent", :url => torrents_path, :method => :post do |f|
+  %p
+    = f.label :url, "Add new torrent by url:"
+    = f.text_field :url, :size => 255
+  %p
+    = f.label :start, "Start immediately?"
+    = f.check_box :start
+
+  = submit_tag "Add me!"

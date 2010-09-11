@@ -8,6 +8,13 @@ class TorrentsController < ApplicationController
     @torrents = Torrent.all @connection
   end
 
+  def new
+  end
+
+  def create
+    redirect_to :action => :index
+  end
+
   [ :start, :stop, :erase ].each do |action|
     define_method action do
       @torrent = Torrent.find @connection, params[:id]
