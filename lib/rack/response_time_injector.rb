@@ -12,9 +12,9 @@ module Rack
     
     def call(env)
       t0 = Time.now
-      returning @app.call(env) do |status, headers, body|
-        if body.kind_of?(Array) && body.last
-          body.last.gsub! /\$responsetime(?:\((.+)\))?/ do
+      returning @app.call(env) do |status, headers, response|
+        if response.kind_of?(ActionDispatch::Response)
+          response.body = response.body.gsub /\$responsetime(?:\((.+)\))?/ do
             diff = Time.now - t0
             if @format.respond_to? :call
               @format.call(diff)
