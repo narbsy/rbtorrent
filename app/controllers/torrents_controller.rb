@@ -23,7 +23,7 @@ class TorrentsController < ApplicationController
                                                           :get_completed_chunks, :get_down_rate, 
                                                           :get_up_rate ]
     json_torrents = @torrents.map do |torrent|
-      returning({}) do |h|
+      {}.tap do |h|
         [:hash, :status, :ratio, :down_rate, :up_rate].each do |property|
           h[property] = torrent.send "get_#{property}"
         end
