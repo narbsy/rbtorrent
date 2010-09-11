@@ -6,11 +6,11 @@ $(document).ready(function() {
     $(this).siblings('.torrent').slideToggle();
   });
   
-  //var seconds = 1000;
-  var seconds = 200000; // million years
+  var seconds = 1000;
+  // var seconds = 200000; // million years
   var minutes = 60 * seconds;
 
-  update_interval = setInterval( update_torrents, 10 * seconds );
+  update_interval = setInterval( check_for_updates, 10 * seconds );
   // Idle after 1 minute
   $.idleTimer( 1 * minutes );
 
@@ -25,7 +25,11 @@ $(document).ready(function() {
 
 function change_update_interval(new_interval) {
   clearInterval(update_interval);
-  update_interval = setInterval( update_torrents, new_interval );
+  update_interval = setInterval( check_for_updates, new_interval );
+}
+
+function check_for_updates() {
+  $.get('torrents/check');
 }
 
 function update_torrents(data){
