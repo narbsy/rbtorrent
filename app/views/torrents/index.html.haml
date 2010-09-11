@@ -8,6 +8,7 @@
         %a{ :href => "#", :onclick => "return hide_all_but('#{status}');" }= status.capitalize
 
 %ul.torrents
+  = link_to 'update', check_torrents_path, :remote => true
   - @torrents.each do |torrent|
     %li{ :class => torrent.get_status.downcase, :id => "t" + torrent.get_hash }
       .title

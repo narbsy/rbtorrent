@@ -8,6 +8,11 @@ Rbtorrent::Application.routes.draw do
       post :start
       post :stop
       post :erase
+
+    end
+
+    collection do
+      get :check
     end
   end
 

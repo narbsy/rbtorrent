@@ -28,41 +28,37 @@ function change_update_interval(new_interval) {
   update_interval = setInterval( update_torrents, new_interval );
 }
 
-function update_torrents(){
-  $.get('/update', function(data) {
-    data.forEach( function(update) {
-      var hash = update.hash;
-      var css_id = torrent_id(hash);
-      // ratio
-      var elem = $(css_id + ' .torrent .ratio');
-      $(elem).text('Ratio: ' + (update.ratio / 1000).toFixed(3));
-      //percentage
-      elem = $(css_id + ' .torrent .percentage .percent span');
-      var percent = (update.percentage * 100).toFixed(2);
-      $(elem).text(percent + '%');
-      $(elem).css('width', percent + '%');
-      //status
-      update_status(hash, update.status);
-      //up, down rates
-      // var up = (update.up_rate / 1024).toFixed(2);
-      // var down = (update.down_rate / 1024).toFixed(2);
-      var elem = $(css_id + ' .torrent .rates');
-      $(elem).text('Upload: ' + update.up_rate + 'KB/s Download: ' + update.down_rate + 'KB/s');
-    });
-  }, 'json');
+function update_torrents(data){
+  data.forEach( function(update) {
+    var hash = update.hash;
+    var css_id = torrent_id(hash);
+    // ratio
+    var elem = $(css_id + ' .torrent .ratio');
+    $(elem).text('Ratio: ' + (update.ratio / 1000).toFixed(3));
+    //percentage
+    elem = $(css_id + ' .torrent .percentage .percent span');
+    var percent = (update.percentage * 100).toFixed(2);
+    $(elem).text(percent + '%');
+    $(elem).css('width', percent + '%');
+    //status
+    update_status(hash, update.status);
+    //up, down rates
+    // var up = (update.up_rate / 1024).toFixed(2);
+    // var down = (update.down_rate / 1024).toFixed(2);
+    var elem = $(css_id + ' .torrent .rates');
+    $(elem).text('Upload: ' + update.up_rate.toFixed(1) + 'KB/s Download: ' + update.down_rate.toFixed(1) + 'KB/s');
+  } );
 }
 
 function hide_all_but(css_class) {
   var css = '.' + css_class
-  $('li:not(' + css + ')').hide();
-  $('li' + css).show();
-  // which one is faster?
-  // li.filter(css).show();
+  $('.content li:not(' + css + ') .title').siblings().hide();
+  $('.content li' + css + ' .title').siblings().show();
   return false;
 }
 
 function show_all() {
-  $('li').show();
+  $('.content li .title').siblings().show();
   return false;
 }
 
