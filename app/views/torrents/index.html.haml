@@ -36,7 +36,7 @@
             = render :partial => "partials/percent_bar", :object => to_percent(torrent.percentage)
         %div.clear
           - [:stop, :start, :erase].each do |action|
-            = link_to action.capitalize, "#", :onclick => "return action_with_hash('/torrents/#{torrent.get_hash}/#{action}', '#{ torrent.get_hash }');"
+            = link_to action.capitalize, send("#{action}_torrent_url", torrent.get_hash), :remote => true, :method => :post
           %span.on-top.right
             = render :partial => "clippy", :object => File.join(@download_dir.value, torrent.get_name)
             = link_to "<", "#", :onclick => "slide(event, '<', '>');"

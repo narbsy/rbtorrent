@@ -13,7 +13,7 @@ class TorrentsController < ApplicationController
       @torrent = Torrent.find @connection, params[:id]
       @torrent.send action
 
-      render :json => @torrent.get_status(true)
+      render :partial => 'update'
     end
   end
 

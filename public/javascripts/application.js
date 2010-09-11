@@ -32,11 +32,12 @@ function update_torrents(){
   $.get('/update', function(data) {
     data.forEach( function(update) {
       var hash = update.hash;
+      var css_id = torrent_id(hash);
       // ratio
-      var elem = $('#' + hash + ' .torrent .ratio');
+      var elem = $(css_id + ' .torrent .ratio');
       $(elem).text('Ratio: ' + (update.ratio / 1000).toFixed(3));
       //percentage
-      elem = $('#' + hash + ' .torrent .percentage .percent span');
+      elem = $(css_id + ' .torrent .percentage .percent span');
       var percent = (update.percentage * 100).toFixed(2);
       $(elem).text(percent + '%');
       $(elem).css('width', percent + '%');
@@ -45,7 +46,7 @@ function update_torrents(){
       //up, down rates
       // var up = (update.up_rate / 1024).toFixed(2);
       // var down = (update.down_rate / 1024).toFixed(2);
-      var elem = $('#' + hash + ' .torrent .rates');
+      var elem = $(css_id + ' .torrent .rates');
       $(elem).text('Upload: ' + update.up_rate + 'KB/s Download: ' + update.down_rate + 'KB/s');
     });
   }, 'json');
@@ -66,17 +67,7 @@ function show_all() {
 }
 
 function update_status(hash, new_status) {
-  $('#' + hash + ' .title .status').html('[ ' + new_status + ' ]');
-}
-
-function action_with_hash(action, hash) {
-	$.post(action, { hash: hash }, 
-		function(data) {
-			alert('finished: ' + action + '\n\n\n\n' + data.status);
-      update_status(hash, data.status);
-		}, "json"
-	);
-	return false;
+  $(torrent_id(hash) + ' .title .status').html('[ ' + new_status + ' ]');
 }
 
 function slide(event, closed, open) {
@@ -84,6 +75,10 @@ function slide(event, closed, open) {
   var text = $(event.target).text();
   $(event.target).text( text == closed ? open : closed );
   return text == closed;
+}
+
+function torrent_id(hash) {
+  return '#t' + hash;
 }
 
 function delete_file(hash, index) {
