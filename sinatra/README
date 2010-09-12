@@ -1,4 +1,0 @@
-A lightweight web-ui for rtorrent built using sinatra.
-
-The UI is rather basic, as is some of the functionality. For example, there are no private torrents.
-
