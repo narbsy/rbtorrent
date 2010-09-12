@@ -1,4 +1,5 @@
 class TorrentsController < ApplicationController
+  include RemoteFiles
   before_filter :authenticate_user!
   before_filter :create_connection
 
@@ -12,7 +13,31 @@ class TorrentsController < ApplicationController
   end
 
   def create
-    redirect_to :action => :index
+    url = params[:torrent][:url]
+    start = params[:torrent][:start] == "0"
+    torrent_dir = ConfigOption.get("torrent-dir").value
+
+    contents, name = nil
+    [
+      [ lambda { contents = read_remote_file(url) }, "Could not read remote url!" ],
+      [ lambda { name = write_local_file!(torrent_dir, contents) }, "Could not write local file!" ] 
+    ].each do |f, error_message|
+      unless f.call
+        flash.alert = error_message
+        render :action => :new
+        return
+      end
+    end
+
+    logger.debug "Here in the child..."
+
+    @rtorrent = Rtorrent.new
+
+    if @rtorrent.load name, start
+      flash.notice = "Successfully added torrent!"
+    end
+
+    render :action => :new
   end
 
   [ :start, :stop, :erase ].each do |action|
