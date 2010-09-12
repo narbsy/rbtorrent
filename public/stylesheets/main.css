@@ -114,7 +114,7 @@ ul.torrents {
 form input[type="text"] {
   width: 100%; }
 
-.errors, .messages {
+.alert, .notice {
   color: red;
   background-color: #7d73ff; }
 
