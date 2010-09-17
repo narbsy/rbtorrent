@@ -1,5 +1,5 @@
 ---
-    environment: development
+    environment: production
     chdir: /var/www/rbtorrent
     address: 127.0.0.1
     user: www-data
@@ -11,4 +11,4 @@
     max_conns: 1024
     timeout: 30
     max_persistent_conns: 512
-    daemonize: false
+    daemonize: true
