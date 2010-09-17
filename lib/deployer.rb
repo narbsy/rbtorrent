@@ -24,7 +24,7 @@ def deploy_from_local_git(host, branch, destination, files=nil)
 end
 
 def deploy(*list)
-  user = "www-data"
+  user = "root"
   host = "#{ user }@narbsy.com"
   deploy_to = "/var/www/rbtorrent/"
   branch = "master"
