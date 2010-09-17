@@ -5,9 +5,9 @@
     user: www-data
     group: www-data
     port: 4567
-    pid: /var/www/rbtorrent/thin.pid
+    pid: /var/www/rbtorrent/tmp/thin.pid
     rackup: /var/www/rbtorrent/config.ru
-    log: /var/www/rbtorrent/thin.log
+    log: /var/www/rbtorrent/log/thin.log
     max_conns: 1024
     timeout: 30
     max_persistent_conns: 512
