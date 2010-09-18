@@ -2,23 +2,23 @@
   margin: 0
   padding: 0
 
-=colorfula(!normal, !hover, !visited)
+=colorfula($normal, $hover, $visited)
   a
-    color = !normal
+    color: $normal
     &:visited
-      color = !visited
+      color: $visited
     &:hover
-      color = !hover
+      color: $hover
 
-=fromtop(!howfar)
+=fromtop($howfar)
   position: absolute
-  top = !howfar
+  top: $howfar
 
-!header = #007DFF
+$header: #007dff
 
-!color2 = #3A30BF
-!color4 = #7D73FF
-!color5 = #1300FF
+$color2: #3a30bf
+$color4: #7d73ff
+$color5: #1300ff
 
 *
   font-family: sans-serif
@@ -30,15 +30,13 @@
   // was: !header
   background-color: blue
   border-bottom: 1px solid gray
-
   .big
     width: 50%
     padding-bottom: 1%
     +flat
     a
       text-decoration: none
-    +colorfula("black", "black", "black")
-
+    +colorfula(black, black, black)
   .small
     width: 48%
     text-align: right
@@ -46,7 +44,7 @@
     +flat
     // margin-right: 0.5%
     a
-      +colorfula("black", "black", "black")
+      +colorfula(black, black, black)
 
 .right
   position: absolute
@@ -72,7 +70,7 @@
   padding-top: 2px
   width: 100%
   // +colorfula("#{!header}", "blue", "#{!header}")
-  +colorfula("blue", "#{!header}", "blue")
+  +colorfula(blue, #{$header}, blue)
   // +colorfula("#{!color4}", "#{!color5}", "#{!color4}")
   a
     font-weight: bold
@@ -93,25 +91,25 @@
 
 body, html
   +flat
-  background-color: #FFF
+  background-color: white
 
 ul.torrents
   position: relative
   +flat
   margin-top: 0.5%
   list-style-type: none
-  +colorfula("#{!color2}", "#{!color2}", "#{!color2}")
+  +colorfula(#{$color2}, #{$color2}, #{$color2})
   li
-    border = "1px solid #{ !color2 }"
+    border: unquote("1px solid #{$color2}")
     +flat
     margin-bottom: 0.5%
-    color = !color2
+    color: $color2
   li.finished .torrent
     display: none
 
 #login
-  border = "1px solid #{ !color2 }"
-  background-color = !color5
+  border: unquote("1px solid #{$color2}")
+  background-color: $color5
   color: white
 
 form
@@ -120,7 +118,7 @@ form
 
 .alert, .notice
   color: red
-  background-color = !color4
+  background-color: $color4
 
 .content
   width: 70%
@@ -148,7 +146,7 @@ form
   clear: both
 
 .torrent
-  border-top = "1px solid #{ !color2 }"
+  border-top: unquote("1px solid #{$color2}")
   p.clear
     position: relative
     z-index: 1
@@ -181,7 +179,6 @@ form.files
   border: 1px solid blue
   width: 97%
   margin: auto
-
   table
     width: 100%
   td
