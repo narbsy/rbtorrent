@@ -8,7 +8,7 @@ def deploy_from_local_git(host, branch, destination, files=nil)
   if files then
           archive = "echo \"#{files.join("\n")}\" | tar -c -T -"
   elsif `git status`.lines.count > 2 then
-          archive = "tar -c ."
+          archive = "tar -c --exclude=.git ."
   else
           archive = "git archive --format=tar #{branch}"
   end

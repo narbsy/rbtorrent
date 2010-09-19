@@ -15,7 +15,6 @@ class TorrentsController < ApplicationController
   def create
     url = params[:torrent][:url]
     start = params[:torrent][:start] == "0"
-    torrent_dir = ConfigOption.get("torrent-dir").value
 
     contents, name = nil
     [
@@ -32,11 +31,10 @@ class TorrentsController < ApplicationController
     logger.debug "Here in the child..."
 
     @rtorrent = Rtorrent.new @connection
-    @torrent_dir = ConfigOption.get "torrent-dir"
 
     logger.info "name,contents= #{[name,contents].inspect}"
 
-    if @rtorrent.load @torrent_dir.value, name, start
+    if @rtorrent.load torrent_dir, name, start
       flash.notice = "Successfully added torrent!"
     end
 
@@ -65,7 +63,7 @@ class TorrentsController < ApplicationController
         h[:percentage] = torrent.percentage
       end
     end
-    render :json => json_torrents, :callback => "update_torrents"
+    render :json => json_torrents
   end
 
   private

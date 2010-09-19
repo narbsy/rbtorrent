@@ -29,7 +29,7 @@ function change_update_interval(new_interval) {
 }
 
 function check_for_updates() {
-  $.get('torrents/check');
+  $.get('torrents/check', update_torrents, "json");
 }
 
 function update_torrents(data){
