@@ -9,6 +9,8 @@ class Torrent
   OTHER_PROPERTIES = [ :get_down_total, :get_up_total, :get_chunk_size ]
 
   SPECIAL_METHODS = [ :get_up_rate, :get_down_rate ]
+
+  STRING_PROPERTIES = [ :get_hash, :get_name ]
   
   def initialize(client, properties = {})
     puts properties.inspect
@@ -17,6 +19,7 @@ class Torrent
     # quick start caches
     properties.each do |k,v|
       # puts "i: Setting @#{k} to #{v}"
+      v = v.to_i unless STRING_PROPERTIES.include?(k)
       instance_variable_set "@#{k}", v
     end
   end
@@ -49,7 +52,8 @@ class Torrent
   # We want these to be proper values
   [ :get_up_rate, :get_down_rate ].each do |rate|
     define_method rate do
-      (@client.call("d.#{rate}", get_hash) / 1024).round(4)
+      found_rate = @client.call("d.#{rate}", get_hash).to_i
+      (found_rate / 1024).round(4)
     end
   end
 

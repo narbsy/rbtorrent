@@ -5,6 +5,8 @@ class TorrentFile
     :get_path_depth, :get_range_first, :get_range_second,
     :get_size_bytes ]
 
+  INTEGER_PROPERTIES = [ :get_size_chunks, :get_completed_chunks, :get_offset, :get_range_first, :get_range_second, :get_size_bytes ]
+
   attr_reader :index
 
   def initialize(connection, parent, index, properties = {})
@@ -14,6 +16,7 @@ class TorrentFile
     # quick start caches
     properties.each do |k,v|
       # puts "i: Setting @#{k} to #{v}"
+      v = v.to_i if INTEGER_PROPERTIES.include?(k)
       instance_variable_set "@#{k}", v
     end
   end

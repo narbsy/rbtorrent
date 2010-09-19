@@ -31,9 +31,12 @@ class TorrentsController < ApplicationController
 
     logger.debug "Here in the child..."
 
-    @rtorrent = Rtorrent.new
+    @rtorrent = Rtorrent.new @connection
+    @torrent_dir = ConfigOption.get "torrent-dir"
 
-    if @rtorrent.load name, start
+    logger.info "name,contents= #{[name,contents].inspect}"
+
+    if @rtorrent.load @torrent_dir.value, name, start
       flash.notice = "Successfully added torrent!"
     end
 

@@ -8,7 +8,7 @@ module RemoteFiles
     nil
   end
 
-  def write_local_file!(torrent_dir, contents, error_callback)
+  def write_local_file!(torrent_dir, contents, error_callback=nil)
     error_callback ||= lambda { |message| puts message }
     name = hashed_name(contents)
     # Write the file locally so that rtorrent can read it

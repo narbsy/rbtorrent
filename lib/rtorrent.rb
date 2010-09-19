@@ -31,6 +31,7 @@ class Rtorrent
 	# and returns whatever value the block returned for consistency and ease of
 	# use.
 	def with_dir(directory)
+    Rails.logger.info "Switching to: #{directory}"
 		curr = self.cwd
     begin
       self.cwd = directory

@@ -17,6 +17,7 @@ def deploy_from_local_git(host, branch, destination, files=nil)
               "cd #{destination}",
               "tar xf -",
               #"thin -R config.ru restart"
+              "chown -R www-data:www-data ."
             ].join(" && ")
   
   #puts "#{ archive } | #{ remote_command(host, command, true) }"
