@@ -19,7 +19,7 @@ module RemoteFiles
       return nil
     end
 
-    File.open(file_name, "w") do |f|
+    File.open(file_name, "w:ASCII-8BIT") do |f|
       f.write contents
     end
     file_name

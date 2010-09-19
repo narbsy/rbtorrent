@@ -29,10 +29,11 @@ function change_update_interval(new_interval) {
 }
 
 function check_for_updates() {
-  $.get('torrents/check', update_torrents, "json");
+  $.get('/torrents/check', update_torrents, "json");
 }
 
 function update_torrents(data){
+  console.log(data);
   data.forEach( function(update) {
     var hash = update.hash;
     var css_id = torrent_id(hash);

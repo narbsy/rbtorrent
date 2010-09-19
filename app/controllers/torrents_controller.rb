@@ -15,6 +15,7 @@ class TorrentsController < ApplicationController
   def create
     url = params[:torrent][:url]
     start = params[:torrent][:start] == "0"
+    torrent_dir = ConfigOption.get("torrent-dir").value
 
     contents, name = nil
     [

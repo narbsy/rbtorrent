@@ -1,3 +1,10 @@
+desc "deploy a single file"
+task :deploy, :files do |t, args|
+  files = args[:files]
+
+  require 'deployer'
+  deploy files
+end
 namespace :deploy do
   desc "deploy all files to remote"
   task :all do
